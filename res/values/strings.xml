@@ -6,5 +6,6 @@
     <string name="contacts_tab">Contacts</string>
     <string name="phone_tab">Dialer</string>
     <string name="groups_tab">Groups</string>
+    <string name="addContactMenu">Add Contact</string>
 
 </resources>

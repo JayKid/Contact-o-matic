@@ -4,6 +4,8 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -30,7 +32,6 @@ public class ContactomaticActivity extends TabActivity
 //    Cursor managedCursor = getContentResolver()
 //    	    .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
 //    	     new String[] {Phone._ID, Phone.DISPLAY_NAME, Phone.NUMBER}, null, null,  Phone.DISPLAY_NAME + " ASC");
-    
     
     private void addContactsTab()
     {
@@ -59,5 +60,15 @@ public class ContactomaticActivity extends TabActivity
         tabHost.addTab(spec);
     }
     
-    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()){
+	        case R.id.addContactMenu:
+	        	Intent intent = new Intent(Intent.ACTION_INSERT);
+	            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+				startActivity(intent);
+	        break;
+    	}
+    	return true;
+    }
 }

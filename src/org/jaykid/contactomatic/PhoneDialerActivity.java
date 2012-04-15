@@ -46,7 +46,6 @@ public class PhoneDialerActivity extends Activity
 		}
     }
 	
-	
 	private void setDialedPhoneNumber(String telephoneNumber) 
 	{
 		((TextView) findViewById(R.id.dialedNumber)).setText(telephoneNumber);
@@ -68,9 +67,7 @@ public class PhoneDialerActivity extends Activity
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
 			callIntent.setData(telephoneNumberToBeCalled);
 			startActivity(callIntent);
-
 		}
-		
     }
 
 	private Uri getDialedTelephoneNumber() 
