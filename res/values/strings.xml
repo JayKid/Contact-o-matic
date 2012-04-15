@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, ContactomaticActivity!</string>
     <string name="app_name">Contact-o-matic</string>
+    <string name="contact_photo">Contact photo</string>
+    <string name="contacts_tab">Contacts</string>
+    <string name="phone_tab">Dialer</string>
+    <string name="groups_tab">Groups</string>
 
 </resources>
