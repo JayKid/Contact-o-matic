@@ -3,7 +3,7 @@ package org.jaykid.contactomatic;
 import java.util.ArrayList;
 
 import org.jaykid.adapters.ContactoMaticListViewAdapter;
-import org.jaykid.classes.Contact;
+import org.jaykid.classes.ContactsManager;
 import org.jaykid.classes.Item;
 
 import android.app.AlertDialog;
@@ -11,8 +11,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -102,11 +100,13 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	
 	public void fillData()
 	{
-		Bitmap photo = BitmapFactory.decodeResource(getResources(), getResources().getIdentifier("ic_launcher", "drawable", "org.jaykid.contactomatic" ));
+		ContactsManager contactsManager = new ContactsManager(this);
+		ArrayList<Item> contacts = contactsManager.getAllContacts();
 		contactAdapter.clear();
-		contactAdapter.add(new Contact("Dummy",121231,photo));
-		contactAdapter.add(new Contact("Lammy",121231,photo));
-		contactAdapter.add(new Contact("Trilly",121231,photo));
+		for(int i = 0; i < contacts.size(); ++i)
+		{
+			contactAdapter.add(contacts.get(i));
+		}
 		contactAdapter.notifyDataSetChanged();
 	}
 
