@@ -90,7 +90,6 @@ public class PhoneDialerActivity extends Activity
 	
 	private boolean isAValidUri(Uri telephoneNumberToBeCalled)
 	{
-		if (!telephoneNumberToBeCalled.equals(EMPTY_URI)) return true;
-		return false;
+		return !telephoneNumberToBeCalled.equals(EMPTY_URI);
 	}
 }
