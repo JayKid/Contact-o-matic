@@ -13,9 +13,18 @@ public class ContactomaticActivity extends TabActivity
 {
 	private TabHost tabHost;
 	private Resources resources;
-	private static String CONTACT_TAB_NAME = "Contacts";
-	private static String PHONE_TAB_NAME = "Phone";
-	private static String GROUPS_TAB_NAME = "Groups";
+	private static String CONTACT_TABNAME = "Contacts";
+	private static String PHONE_TABNAME = "Phone";
+	private static String GROUPS_TABNAME = "Groups";
+
+	private static int CONTACT_TAB_DISPLAYING_NAME = R.string.contacts_tab;
+	private static int PHONE_TAB_DISPLAYING_NAME = R.string.phone_tab;
+	private static int GROUPS_TAB_DISPLAYING_NAME = R.string.groups_tab;
+	
+	private static int CONTACT_TAB_ICON = R.drawable.ic_menu_sort_alphabetically;
+	private static int PHONE_TAB_ICON = R.drawable.ic_menu_call;
+	private static int GROUPS_TAB_ICON = R.drawable.ic_menu_group;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -24,40 +33,37 @@ public class ContactomaticActivity extends TabActivity
         setContentView(R.layout.main);
         resources = getResources();
         tabHost = getTabHost();
-        addContactsTab();
+        addTabs();
+    }
+
+	private void addTabs() {
+		addContactsTab();
         addPhoneTab();
         addGroupsTab();
-    }
-    
-//    Cursor managedCursor = getContentResolver()
-//    	    .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//    	     new String[] {Phone._ID, Phone.DISPLAY_NAME, Phone.NUMBER}, null, null,  Phone.DISPLAY_NAME + " ASC");
+	}
     
     private void addContactsTab()
     {
-        Intent intent = new Intent(this, ContactListActivity.class);
-        TabSpec spec = tabHost.newTabSpec(CONTACT_TAB_NAME);
-        spec.setIndicator(getString(R.string.contacts_tab), resources.getDrawable(R.drawable.ic_menu_sort_alphabetically));
-        spec.setContent(intent);
-        tabHost.addTab(spec);
+    	addElementTab(ContactListActivity.class,CONTACT_TABNAME,CONTACT_TAB_DISPLAYING_NAME,CONTACT_TAB_ICON);
     }
     
     private void addPhoneTab()
     {
-        Intent intent = new Intent(this, PhoneDialerActivity.class);
-        TabSpec spec = tabHost.newTabSpec(PHONE_TAB_NAME);
-        spec.setIndicator(getString(R.string.phone_tab), resources.getDrawable(R.drawable.ic_menu_call));
-        spec.setContent(intent);
-        tabHost.addTab(spec);
+    	addElementTab(PhoneDialerActivity.class,PHONE_TABNAME,PHONE_TAB_DISPLAYING_NAME,PHONE_TAB_ICON);
     }
     
     private void addGroupsTab()
     {
-        Intent intent = new Intent(this, PhoneDialerActivity.class);
-        TabSpec spec = tabHost.newTabSpec(GROUPS_TAB_NAME);
-        spec.setIndicator(getString(R.string.groups_tab), resources.getDrawable(R.drawable.ic_menu_group));
-        spec.setContent(intent);
-        tabHost.addTab(spec);
+    	addElementTab(ContactListActivity.class,GROUPS_TABNAME,GROUPS_TAB_DISPLAYING_NAME,GROUPS_TAB_ICON);
+    }
+    
+    private void addElementTab(Class<?> tabActivityClass, String tabName, int tabDisplayingTitle, int tabIcon)
+    {
+    	Intent tabIntent = new Intent(this, tabActivityClass);
+    	TabSpec spec = tabHost.newTabSpec(tabName);
+    	spec.setIndicator(getString(tabDisplayingTitle), resources.getDrawable(tabIcon));
+    	spec.setContent(tabIntent);
+    	tabHost.addTab(spec);
     }
     
     @Override
