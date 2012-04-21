@@ -8,11 +8,11 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
-import android.util.Log;
 
 public class ContactsManager {
 	
@@ -32,12 +32,17 @@ public class ContactsManager {
 	
 	public ArrayList<Item> getAllContacts()
 	{
-		getContactsId();
-		getContactsNames();
-		getContactsPhotos();
+		getContactsWithData();
 		ArrayList<Item> contactsItems = new ArrayList<Item>();
 		contactsItems.addAll(contacts);
 		return contactsItems;
+	}
+
+	private void getContactsWithData() {
+		getContactsId();
+		getContactsNames();
+		getContactsPhotos();
+		getContactsEmails();
 	}
 	
 	private void getContactsId()
@@ -58,6 +63,48 @@ public class ContactsManager {
 			}
 		}
 		cursorContacts.close();
+	}
+	
+	private void getContactsEmails()
+	{
+
+		String[] projection = new String[] { Email.CONTACT_ID, Email.DATA };
+        Cursor cursorForContactsEmail = getCursorForContactsEmail(projection);
+        int idColumnIndex = cursorForContactsEmail.getColumnIndex(Email.CONTACT_ID);
+		int emailColumnIndex = cursorForContactsEmail.getColumnIndex(Email.DATA);
+        
+		int contactArrayIndex = 0;
+		
+		for(cursorForContactsEmail.moveToFirst(); !cursorForContactsEmail.isAfterLast(); cursorForContactsEmail.moveToNext())
+		{
+
+			int actualContactId = cursorForContactsEmail.getInt(idColumnIndex);
+			String actualContactEmail = cursorForContactsEmail.getString(emailColumnIndex);
+			
+			while (contactArrayIndex < contacts.size() && 
+					contacts.get(contactArrayIndex).getId() < actualContactId)
+			{
+				++contactArrayIndex;
+			}
+			
+			if ( contacts.get(contactArrayIndex).getId() == actualContactId )
+			{
+				Contact contactToUpdate = contacts.get(contactArrayIndex);
+				contactToUpdate.setEmail(actualContactEmail);
+				contacts.set(contactArrayIndex, contactToUpdate);
+			}
+			else
+			{
+				contacts.remove(contactArrayIndex);
+			}
+			
+		}
+		cursorForContactsEmail.close();
+	}
+	
+	private Cursor getCursorForContactsEmail(String[] projection) 
+	{
+		return contentResolver.query(Email.CONTENT_URI, projection, null, null, Email.CONTACT_ID + " ASC");
 	}
 	
 	private void getContactsPhotos()
