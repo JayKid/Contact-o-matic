@@ -8,7 +8,6 @@ public class DialerHelper {
 
 	private Context myContext;
 	private static final String PHONE_PREFIX = "tel:";
-	private static final Uri EMPTY_URI = Uri.parse(PHONE_PREFIX);
 	
 	public DialerHelper(Context context)
 	{
@@ -17,11 +16,12 @@ public class DialerHelper {
 	
 	public void callNumber(String telephoneNumberToBeCalledFromUI)
 	{
-		String dialedTelephonedNumberFromUIWithPrefix;
-		dialedTelephonedNumberFromUIWithPrefix = addPhonePrefix(telephoneNumberToBeCalledFromUI);
-		Uri telephoneNumberToBeCalled = Uri.parse(dialedTelephonedNumberFromUIWithPrefix);
-		
-		if (isANotAnEmptyUri(telephoneNumberToBeCalled)) {
+		if (isNotAnEmptyTelephone(telephoneNumberToBeCalledFromUI))
+		{
+			String dialedTelephonedNumberFromUIWithPrefix;
+			dialedTelephonedNumberFromUIWithPrefix = addPhonePrefix(telephoneNumberToBeCalledFromUI);
+			Uri telephoneNumberToBeCalled = Uri.parse(dialedTelephonedNumberFromUIWithPrefix);
+			
 			Intent callIntent = new Intent(Intent.ACTION_CALL);
 			callIntent.setData(telephoneNumberToBeCalled);
 			myContext.startActivity(callIntent);
@@ -33,9 +33,11 @@ public class DialerHelper {
 		return PHONE_PREFIX.concat(dialedTelephonedNumberFromUI);
 	}
 	
-	private boolean isANotAnEmptyUri(Uri telephoneNumberToBeCalled)
+	private boolean isNotAnEmptyTelephone(String telephoneNumberToBeCalled)
 	{
-		return !telephoneNumberToBeCalled.equals(EMPTY_URI);
+		if (telephoneNumberToBeCalled == null) return false;
+		if (telephoneNumberToBeCalled.equals("")) return false;
+		return true;
 	}
 	
 }

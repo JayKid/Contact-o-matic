@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.jaykid.adapters.ContactoMaticListViewAdapter;
 import org.jaykid.classes.Contact;
 import org.jaykid.classes.ContactsManager;
+import org.jaykid.classes.DialerHelper;
 import org.jaykid.classes.Item;
 
 import android.app.AlertDialog;
@@ -27,6 +28,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 {
 	private ContactoMaticListViewAdapter contactAdapter;
 	private ArrayList<Item> items = new ArrayList<Item>();
+	private DialerHelper dialerHelper;
 	private static final CharSequence[] menuOptions = { "Editar categoria", "Borrar categoria", "Llistar tasques assignades a la categoria" };
 	private static final int DIALOG_TITLE = R.string.contact_click_dialog_title;
 	
@@ -34,6 +36,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_list);
+        dialerHelper = new DialerHelper(this);
         contactAdapter = new ContactoMaticListViewAdapter(this, R.layout.item_row, items);
         setListAdapter(contactAdapter);
         fillData();
@@ -44,9 +47,8 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 			public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
 				
 				Contact clickedContact = (Contact)parent.getItemAtPosition(position);
-				Intent callIntent = new Intent(Intent.ACTION_CALL);
-				callIntent.setData(Uri.parse("tel:"+clickedContact.getPhone()));
-				startActivity(callIntent);
+				String clickedContactPhoneNumber = clickedContact.getPhone();
+				dialerHelper.callNumber(clickedContactPhoneNumber);
 		    }
 		});
 		registerForContextMenu(getListView());
