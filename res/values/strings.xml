@@ -7,5 +7,6 @@
     <string name="phone_tab">Dialer</string>
     <string name="groups_tab">Groups</string>
     <string name="addContactMenu">Add Contact</string>
+    <string name="contact_click_dialog_title">Select an option</string>
 
 </resources>

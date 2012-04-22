@@ -3,6 +3,7 @@ package org.jaykid.contactomatic;
 import java.util.ArrayList;
 
 import org.jaykid.adapters.ContactoMaticListViewAdapter;
+import org.jaykid.classes.Contact;
 import org.jaykid.classes.ContactsManager;
 import org.jaykid.classes.Item;
 
@@ -27,7 +28,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	private ContactoMaticListViewAdapter contactAdapter;
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private static final CharSequence[] menuOptions = { "Editar categoria", "Borrar categoria", "Llistar tasques assignades a la categoria" };
-	
+	private static final int DIALOG_TITLE = R.string.contact_click_dialog_title;
 	
 	public void onCreate(Bundle savedInstanceState)
     {
@@ -42,8 +43,9 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
         listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
 				
+				Contact clickedContact = (Contact)parent.getItemAtPosition(position);
 				Intent callIntent = new Intent(Intent.ACTION_CALL);
-				callIntent.setData(Uri.parse("tel:444"));
+				callIntent.setData(Uri.parse("tel:"+clickedContact.getPhone()));
 				startActivity(callIntent);
 		    }
 		});
@@ -56,7 +58,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
             { 
             	AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(v.getContext());
 
-				dialogBuilder.setTitle("Selecciona una de les següents opcions");
+				dialogBuilder.setTitle(DIALOG_TITLE);
 				dialogBuilder.setItems(menuOptions, new DialogInterface.OnClickListener() {
                     
                     public void onClick(DialogInterface dialog, int item) {
