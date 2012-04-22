@@ -15,7 +15,7 @@ public class Contact implements Item
 		
 	}
 	
-	public Contact(String name, String phone, Bitmap photo, String email) {
+	public Contact(int id, String name, String phone, Bitmap photo, String email) {
 		this.name = name;
 		this.phone = phone;
 		this.photo = photo;

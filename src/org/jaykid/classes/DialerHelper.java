@@ -34,9 +34,18 @@ public class DialerHelper {
         	showEmptyPhoneNumberToast();
 		}
 	}
+	
+	public void sendSMSToNumber(String telephoneNumberToBeCalledFromUI)
+	{
+		Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+    	smsIntent.setType("vnd.android-dir/mms-sms");
+    	smsIntent.putExtra("address", telephoneNumberToBeCalledFromUI);
+    	smsIntent.putExtra("sms_body","Body of Message");
+    	myContext.startActivity(smsIntent);
+	}
 
 	private void showEmptyPhoneNumberToast() {
-		int text = R.string.empty_phone_number;
+		int text = R.string.empty_phone_number; 
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(myContext, text, duration);
 		toast.show();
