@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import org.jaykid.adapters.ContactoMaticListViewAdapter;
 import org.jaykid.classes.Contact;
 import org.jaykid.classes.ContactsManager;
-import org.jaykid.classes.DialerHelper;
+import org.jaykid.classes.Group;
 import org.jaykid.classes.Item;
 
 import android.app.ListActivity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -24,17 +21,15 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class ContactListActivity extends ListActivity implements OnItemClickListener
+public class GroupListActivity extends ListActivity implements OnItemClickListener
 {
 	private ContactoMaticListViewAdapter contactAdapter;
-	private ArrayList<Item> items = new ArrayList<Item>();
-	private DialerHelper dialerHelper;
+	private ArrayList<Group> items = new ArrayList<Group>();
 	
 	public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_list);
-        dialerHelper = new DialerHelper(this);
         contactAdapter = new ContactoMaticListViewAdapter(this, R.layout.item_row, items);
         setListAdapter(contactAdapter);
 //        fillData();
@@ -44,9 +39,9 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
         listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
 				
-				Contact clickedContact = (Contact)parent.getItemAtPosition(position);
-				String clickedContactPhoneNumber = clickedContact.getPhone();
-				dialerHelper.callNumber(clickedContactPhoneNumber);
+//				Contact clickedContact = (Contact)parent.getItemAtPosition(position);
+//				String clickedContactPhoneNumber = clickedContact.getPhone();
+//				dialerHelper.callNumber(clickedContactPhoneNumber);
 		    }
 		});
 		registerForContextMenu(getListView());
@@ -72,19 +67,19 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	{
 		AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		Contact clickedContact = (Contact) getListView().getAdapter().getItem(info.position);
-		String clickedContactPhoneNumber = clickedContact.getPhone();
+		
 	    switch (item.getItemId())
 	    {
 	        case R.id.editContactLongClick:
-	        	Intent callIntent = new Intent(Intent.ACTION_EDIT);
-	            callIntent.setData(Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + clickedContact.getId()));
-	            startActivity(callIntent);
+//	        	Intent callIntent = new Intent(Intent.ACTION_EDIT);
+//	            callIntent.setData(Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + clickedContact.getId()));
+//	            startActivity(callIntent);
 	            return true;
 	        case R.id.sendSMSLongClick:
-	        	dialerHelper.sendSMSToNumber(clickedContactPhoneNumber);
+//	        	dialerHelper.sendSMSToNumber(clickedContactPhoneNumber);
 	            return true;
 	        case R.id.callLongClick:
-				dialerHelper.callNumber(clickedContactPhoneNumber);
+//				dialerHelper.callNumber(clickedContactPhoneNumber);
 	            return true;
 	        default:
 	            return super.onContextItemSelected(item);
