@@ -51,8 +51,7 @@ public class ContactoMaticListViewAdapter extends ArrayAdapter<Item>
 		Contact contact = (Contact) item;
 		viewHolder.name.setText(contact.getName());
 		viewHolder.photo.setImageBitmap(contact.getPhoto());
-//		viewHolder.telephone.setText(String.valueOf(contact.getPhone()));
-		viewHolder.telephone.setText(contact.getEmail());
+		viewHolder.telephone.setText(String.valueOf(contact.getPhone()));
 		return convertView;
 	}
 	

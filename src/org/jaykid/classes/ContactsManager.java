@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
@@ -27,7 +28,6 @@ public class ContactsManager {
 		contacts = new ArrayList<Contact>();
 		resources = context.getResources();
 		DEFAULT_PHOTO = BitmapFactory.decodeResource(resources, resources.getIdentifier("default_photo", "drawable", "org.jaykid.contactomatic"));
-		
 	}
 	
 	public ArrayList<Item> getAllContacts()
@@ -43,6 +43,7 @@ public class ContactsManager {
 		getContactsNames();
 		getContactsPhotos();
 		getContactsEmails();
+		getContactsPhones();
 	}
 	
 	private void getContactsId()
@@ -65,21 +66,20 @@ public class ContactsManager {
 		cursorContacts.close();
 	}
 	
-	private void getContactsEmails()
+	private void getContactsNames()
 	{
-
-		String[] projection = new String[] { Email.CONTACT_ID, Email.DATA };
-        Cursor cursorForContactsEmail = getCursorForContactsEmail(projection);
-        int idColumnIndex = cursorForContactsEmail.getColumnIndex(Email.CONTACT_ID);
-		int emailColumnIndex = cursorForContactsEmail.getColumnIndex(Email.DATA);
-        
+		String[] projection = new String[] {Contacts._ID, Contacts.DISPLAY_NAME};
+		Cursor cursorForContactsNames = getContactNamesCursor(projection);
+		int idColumnIndex = cursorForContactsNames.getColumnIndex(Contacts._ID);
+		int nameColumnIndex = cursorForContactsNames.getColumnIndex(Contacts.DISPLAY_NAME);
+		
 		int contactArrayIndex = 0;
 		
-		for(cursorForContactsEmail.moveToFirst(); !cursorForContactsEmail.isAfterLast(); cursorForContactsEmail.moveToNext())
+		for(cursorForContactsNames.moveToFirst(); !cursorForContactsNames.isAfterLast(); cursorForContactsNames.moveToNext())
 		{
 
-			int actualContactId = cursorForContactsEmail.getInt(idColumnIndex);
-			String actualContactEmail = cursorForContactsEmail.getString(emailColumnIndex);
+			int actualContactId = cursorForContactsNames.getInt(idColumnIndex);
+			String actualContactName = cursorForContactsNames.getString(nameColumnIndex);
 			
 			while (contactArrayIndex < contacts.size() && 
 					contacts.get(contactArrayIndex).getId() < actualContactId)
@@ -87,24 +87,18 @@ public class ContactsManager {
 				++contactArrayIndex;
 			}
 			
-			if ( contacts.get(contactArrayIndex).getId() == actualContactId )
+			if (contacts.get(contactArrayIndex).getId() == actualContactId)
 			{
 				Contact contactToUpdate = contacts.get(contactArrayIndex);
-				contactToUpdate.setEmail(actualContactEmail);
+				contactToUpdate.setName(actualContactName);
 				contacts.set(contactArrayIndex, contactToUpdate);
 			}
 			else
 			{
 				contacts.remove(contactArrayIndex);
 			}
-			
 		}
-		cursorForContactsEmail.close();
-	}
-	
-	private Cursor getCursorForContactsEmail(String[] projection) 
-	{
-		return contentResolver.query(Email.CONTENT_URI, projection, null, null, Email.CONTACT_ID + " ASC");
+		cursorForContactsNames.close();
 	}
 	
 	private void getContactsPhotos()
@@ -152,6 +146,102 @@ public class ContactsManager {
         
 	}
 	
+	private void getContactsEmails()
+	{
+
+		String[] projection = new String[] { Email.CONTACT_ID, Email.DATA };
+        Cursor cursorForContactsEmail = getCursorForContactsEmail(projection);
+        int idColumnIndex = cursorForContactsEmail.getColumnIndex(Email.CONTACT_ID);
+		int emailColumnIndex = cursorForContactsEmail.getColumnIndex(Email.DATA);
+        
+		int contactArrayIndex = 0;
+		
+		for(cursorForContactsEmail.moveToFirst(); !cursorForContactsEmail.isAfterLast(); cursorForContactsEmail.moveToNext())
+		{
+
+			int actualContactId = cursorForContactsEmail.getInt(idColumnIndex);
+			String actualContactEmail = cursorForContactsEmail.getString(emailColumnIndex);
+			
+			while (contactArrayIndex < contacts.size() && 
+					contacts.get(contactArrayIndex).getId() < actualContactId)
+			{
+				++contactArrayIndex;
+			}
+			
+			if ( contacts.get(contactArrayIndex).getId() == actualContactId )
+			{
+				Contact contactToUpdate = contacts.get(contactArrayIndex);
+				contactToUpdate.setEmail(actualContactEmail);
+				contacts.set(contactArrayIndex, contactToUpdate);
+			}
+			else
+			{
+				contacts.remove(contactArrayIndex);
+			}
+			
+		}
+		cursorForContactsEmail.close();
+	}
+	
+	private void getContactsPhones()
+	{
+
+		String[] projection = new String[] { Phone.CONTACT_ID, Phone.DATA };
+        Cursor cursorForContactsPhone = getCursorForContactsPhone(projection);
+        int idColumnIndex = cursorForContactsPhone.getColumnIndex(Phone.CONTACT_ID);
+		int phoneColumnIndex = cursorForContactsPhone.getColumnIndex(Phone.DATA);
+        
+		int contactArrayIndex = 0;
+		
+		for(cursorForContactsPhone.moveToFirst(); !cursorForContactsPhone.isAfterLast(); cursorForContactsPhone.moveToNext())
+		{
+
+			int actualContactId = cursorForContactsPhone.getInt(idColumnIndex);
+			String actualContactPhone = cursorForContactsPhone.getString(phoneColumnIndex);
+			
+			while (contactArrayIndex < contacts.size() && 
+					contacts.get(contactArrayIndex).getId() < actualContactId)
+			{
+				++contactArrayIndex;
+			}
+			
+			if ( contacts.get(contactArrayIndex).getId() == actualContactId )
+			{
+				Contact contactToUpdate = contacts.get(contactArrayIndex);
+				contactToUpdate.setPhone(actualContactPhone);
+				contacts.set(contactArrayIndex, contactToUpdate);
+			}
+			else
+			{
+				contacts.remove(contactArrayIndex);
+			}
+			
+		}
+		cursorForContactsPhone.close();
+	}
+	
+	
+	private Cursor getContactNamesCursor(String[] projection) {
+		return contentResolver.query(Contacts.CONTENT_URI, projection, null, null, Contacts._ID + " ASC");
+	}
+	
+	private Cursor getCursorForContactsPhotos(String[] projection) 
+	{
+		return contentResolver.query(Data.CONTENT_URI, projection, null, null, Photo.CONTACT_ID + " ASC");
+	}
+	
+	private Cursor getCursorForContactsEmail(String[] projection) 
+	{
+		return contentResolver.query(Email.CONTENT_URI, projection, null, null, Email.CONTACT_ID + " ASC");
+	}
+	
+	private Cursor getCursorForContactsPhone(String[] projection) 
+	{
+		return contentResolver.query(Phone.CONTENT_URI, projection, null, null, Phone.CONTACT_ID + " ASC");
+	}
+	
+
+	
 	private Bitmap getPhotoFromNonEncodedData(byte[] actualContactPhotoWithoutDecoding)
 	{
 		Bitmap photo;
@@ -171,48 +261,4 @@ public class ContactsManager {
 		return BitmapFactory.decodeByteArray(actualContactPhotoWithoutDecoding, 0, actualContactPhotoWithoutDecoding.length);
 	}
 
-	private Cursor getCursorForContactsPhotos(String[] projection) 
-	{
-		return contentResolver.query(Data.CONTENT_URI, projection, null, null, Photo.CONTACT_ID + " ASC");
-	}
-	
-	
-	private void getContactsNames()
-	{
-		String[] projection = new String[] {Contacts._ID, Contacts.DISPLAY_NAME};
-		Cursor cursorForContactsNames = getContactNamesCursor(projection);
-		int idColumnIndex = cursorForContactsNames.getColumnIndex(Contacts._ID);
-		int nameColumnIndex = cursorForContactsNames.getColumnIndex(Contacts.DISPLAY_NAME);
-		
-		int contactArrayIndex = 0;
-		
-		for(cursorForContactsNames.moveToFirst(); !cursorForContactsNames.isAfterLast(); cursorForContactsNames.moveToNext())
-		{
-
-			int actualContactId = cursorForContactsNames.getInt(idColumnIndex);
-			String actualContactName = cursorForContactsNames.getString(nameColumnIndex);
-			
-			while (contactArrayIndex < contacts.size() && 
-					contacts.get(contactArrayIndex).getId() < actualContactId)
-			{
-				++contactArrayIndex;
-			}
-			
-			if (contacts.get(contactArrayIndex).getId() == actualContactId)
-			{
-				Contact contactToUpdate = contacts.get(contactArrayIndex);
-				contactToUpdate.setName(actualContactName);
-				contacts.set(contactArrayIndex, contactToUpdate);
-			}
-			else
-			{
-				contacts.remove(contactArrayIndex);
-			}
-		}
-		cursorForContactsNames.close();
-	}
-
-	private Cursor getContactNamesCursor(String[] projection) {
-		return contentResolver.query(Contacts.CONTENT_URI, projection, null, null, Contacts._ID + " ASC");
-	}
 }

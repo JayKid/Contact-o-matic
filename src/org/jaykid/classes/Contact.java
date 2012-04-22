@@ -6,7 +6,7 @@ public class Contact implements Item
 {
 	private int id;
 	private String name;
-	private Integer phone;
+	private String phone;
 	private Bitmap photo;
 	private String email;
 
@@ -15,7 +15,7 @@ public class Contact implements Item
 		
 	}
 	
-	public Contact(String name, Integer phone, Bitmap photo, String email) {
+	public Contact(String name, String phone, Bitmap photo, String email) {
 		this.name = name;
 		this.phone = phone;
 		this.photo = photo;
@@ -38,11 +38,11 @@ public class Contact implements Item
 		this.name = name;
 	}
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
