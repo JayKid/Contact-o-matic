@@ -12,8 +12,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +37,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
         dialerHelper = new DialerHelper(this);
         contactAdapter = new ContactoMaticListViewAdapter(this, R.layout.item_row, items);
         setListAdapter(contactAdapter);
-        fillData();
+//        fillData();
         
         ListView listView = getListView();
         
@@ -92,6 +90,12 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
             }
         }); 
     }
+	
+	public void onResume()
+	{
+		super.onResume();
+		fillData();
+	}
 	
 	// Create the menu based on the XML defintion
 	@Override

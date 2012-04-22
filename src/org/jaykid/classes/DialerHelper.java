@@ -1,8 +1,11 @@
 package org.jaykid.classes;
 
+import org.jaykid.contactomatic.R;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
 public class DialerHelper {
 
@@ -26,6 +29,17 @@ public class DialerHelper {
 			callIntent.setData(telephoneNumberToBeCalled);
 			myContext.startActivity(callIntent);
 		}
+		else
+		{
+        	showEmptyPhoneNumberToast();
+		}
+	}
+
+	private void showEmptyPhoneNumberToast() {
+		int text = R.string.empty_phone_number;
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(myContext, text, duration);
+		toast.show();
 	}
 	
 	private String addPhonePrefix(String dialedTelephonedNumberFromUI) 
