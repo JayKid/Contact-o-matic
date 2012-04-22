@@ -28,7 +28,8 @@ public class DialerHelper {
 		}
 	}
 	
-	private String addPhonePrefix(String dialedTelephonedNumberFromUI) {
+	private String addPhonePrefix(String dialedTelephonedNumberFromUI) 
+	{
 		return PHONE_PREFIX.concat(dialedTelephonedNumberFromUI);
 	}
 	
