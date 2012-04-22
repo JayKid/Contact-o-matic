@@ -12,5 +12,7 @@
     <string name="editContactLongClick">Edit contact</string>
     <string name="sendSMSLongClick">Send SMS</string>
     <string name="callLongClick">Call</string>
+    <string name="group_photo">Group photo</string>
+    
 	
 </resources>

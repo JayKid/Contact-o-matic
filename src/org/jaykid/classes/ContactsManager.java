@@ -27,7 +27,11 @@ public class ContactsManager {
 		contentResolver = context.getContentResolver();
 		contacts = new ArrayList<Contact>();
 		resources = context.getResources();
-		DEFAULT_PHOTO = BitmapFactory.decodeResource(resources, resources.getIdentifier("default_photo", "drawable", "org.jaykid.contactomatic"));
+		DEFAULT_PHOTO = getDefaultContactPhoto();
+	}
+
+	private Bitmap getDefaultContactPhoto() {
+		return BitmapFactory.decodeResource(resources, resources.getIdentifier("default_photo", "drawable", "org.jaykid.contactomatic"));
 	}
 	
 	public ArrayList<Item> getAllContacts()

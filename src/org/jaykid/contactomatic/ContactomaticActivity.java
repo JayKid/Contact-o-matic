@@ -54,7 +54,7 @@ public class ContactomaticActivity extends TabActivity
     
     private void addGroupsTab()
     {
-    	addElementTab(ContactListActivity.class,GROUPS_TABNAME,GROUPS_TAB_DISPLAYING_NAME,GROUPS_TAB_ICON);
+    	addElementTab(GroupListActivity.class,GROUPS_TABNAME,GROUPS_TAB_DISPLAYING_NAME,GROUPS_TAB_ICON);
     }
     
     private void addElementTab(Class<?> tabActivityClass, String tabName, int tabDisplayingTitle, int tabIcon)

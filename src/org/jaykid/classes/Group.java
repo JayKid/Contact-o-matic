@@ -39,8 +39,4 @@ public class Group {
 		this.photo = photo;
 	}
 	
-	
-	
-	
-
 }

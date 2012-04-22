@@ -21,7 +21,7 @@
         </activity>
         <activity android:name="ContactListActivity"></activity>
         <activity android:name="PhoneDialerActivity"></activity>
-        
+        <activity android:name="GroupListActivity"></activity>
         
     </application>
     

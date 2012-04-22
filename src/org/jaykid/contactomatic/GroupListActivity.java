@@ -2,11 +2,9 @@ package org.jaykid.contactomatic;
 
 import java.util.ArrayList;
 
-import org.jaykid.adapters.ContactoMaticListViewAdapter;
-import org.jaykid.classes.Contact;
-import org.jaykid.classes.ContactsManager;
+import org.jaykid.adapters.GroupListViewAdapter;
 import org.jaykid.classes.Group;
-import org.jaykid.classes.Item;
+import org.jaykid.classes.GroupsManager;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -20,28 +18,31 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class GroupListActivity extends ListActivity implements OnItemClickListener
 {
-	private ContactoMaticListViewAdapter contactAdapter;
-	private ArrayList<Group> items = new ArrayList<Group>();
+	private GroupListViewAdapter groupAdapter;
+	private ArrayList<Group> groups = new ArrayList<Group>();
 	
 	public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_list);
-        contactAdapter = new ContactoMaticListViewAdapter(this, R.layout.item_row, items);
-        setListAdapter(contactAdapter);
-//        fillData();
+        groupAdapter = new GroupListViewAdapter(this, R.layout.item_row, groups);
+        setListAdapter(groupAdapter);
         
         ListView listView = getListView();
         
         listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
 				
-//				Contact clickedContact = (Contact)parent.getItemAtPosition(position);
-//				String clickedContactPhoneNumber = clickedContact.getPhone();
-//				dialerHelper.callNumber(clickedContactPhoneNumber);
+				Group clickedGroup = (Group)parent.getItemAtPosition(position);
+				String clickedGroupName = clickedGroup.getName();
+				
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(getApplicationContext(), clickedGroupName, duration);
+				toast.show();
 		    }
 		});
 		registerForContextMenu(getListView());
@@ -54,11 +55,10 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 		super.onCreateContextMenu(menu, v, menuInfo);
 	    MenuInflater inflater = getMenuInflater();
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-	    Contact contact = (Contact) getListView().getAdapter().getItem(info.position);
-        menu.setHeaderTitle(contact.getName());
+	    Group group = (Group) getListView().getAdapter().getItem(info.position);
+        menu.setHeaderTitle(group.getName());
         menu.setHeaderIcon(R.drawable.ic_launcher);
         inflater.inflate(R.menu.contact_list_longclick_menu, menu);
-//	    if (!contact.getHasPhoneNumber()) menu.setGroupVisible(R.id.CallGroup, false);
 	}
 	
 	
@@ -66,7 +66,7 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 	public boolean onContextItemSelected(MenuItem item)
 	{
 		AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		Contact clickedContact = (Contact) getListView().getAdapter().getItem(info.position);
+		Group clickedGroup = (Group) getListView().getAdapter().getItem(info.position);
 		
 	    switch (item.getItemId())
 	    {
@@ -103,14 +103,14 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 	
 	public void fillData()
 	{
-		ContactsManager contactsManager = new ContactsManager(this);
-		ArrayList<Item> contacts = contactsManager.getAllContacts();
-		contactAdapter.clear();
-		for(int i = 0; i < contacts.size(); ++i)
+		GroupsManager groupsManager = new GroupsManager(this);
+		ArrayList<Group> groups = groupsManager.getAllGroups();
+		groupAdapter.clear();
+		for(int i = 0; i < groups.size(); ++i)
 		{
-			contactAdapter.add(contacts.get(i));
+			groupAdapter.add(groups.get(i));
 		}
-		contactAdapter.notifyDataSetChanged();
+		groupAdapter.notifyDataSetChanged();
 	}
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
