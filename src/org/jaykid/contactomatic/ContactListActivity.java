@@ -75,6 +75,13 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 		String clickedContactPhoneNumber = clickedContact.getPhone();
 	    switch (item.getItemId())
 	    {
+	    	case R.id.viewContactLongClick:
+	    		Intent detailIntent = new Intent(this, ContactDetailActivity.class);
+	    		Bundle extras = new Bundle();
+	    		extras.putParcelable("contact", clickedContact);
+	    		detailIntent.putExtras(extras);
+	    		startActivity(detailIntent);
+	    		return true;
 	        case R.id.editContactLongClick:
 	        	Intent callIntent = new Intent(Intent.ACTION_EDIT);
 	            callIntent.setData(Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + clickedContact.getId()));

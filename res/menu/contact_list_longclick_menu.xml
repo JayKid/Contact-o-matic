@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/viewContactLongClick" android:title="@string/viewContactLongClick"></item>
     <item android:id="@+id/editContactLongClick" android:title="@string/editContactLongClick"></item>
     <item android:id="@+id/sendSMSLongClick" android:title="@string/sendSMSLongClick"></item>
     <item android:id="@+id/callLongClick" android:title="@string/callLongClick"></item>

@@ -1,8 +1,10 @@
 package org.jaykid.classes;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Contact implements Item
+public class Contact implements Item, Parcelable
 {
 	private int id;
 	private String name;
@@ -61,5 +63,47 @@ public class Contact implements Item
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeInt(id);
+		parcel.writeString(name);
+		parcel.writeParcelable(photo, flags);
+		parcel.writeString(phone);
+		parcel.writeString(email);
+	}
+	
+	public Contact(Parcel in)
+	{
+		readFromParcel(in);
+	}
+	
+	public void readFromParcel(Parcel parcel)
+	{
+		id = parcel.readInt();
+		name = parcel.readString();
+		photo = parcel.readParcelable(Bitmap.class.getClassLoader());
+		phone = parcel.readString();
+		email = parcel.readString();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static final Parcelable.Creator CREATOR = new Parcelable.Creator()
+	{
+        public Contact createFromParcel(Parcel in)
+        {
+            return new Contact(in);
+        }
+ 
+        public Contact[] newArray(int size)
+        {
+            return new Contact[size];
+        }
+    };
 	
 }
