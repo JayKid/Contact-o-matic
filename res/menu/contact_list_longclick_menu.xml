@@ -3,5 +3,5 @@
     <item android:id="@+id/viewContactLongClick" android:title="@string/viewContactLongClick"></item>
     <item android:id="@+id/editContactLongClick" android:title="@string/editContactLongClick"></item>
     <item android:id="@+id/sendSMSLongClick" android:title="@string/sendSMSLongClick"></item>
-    <item android:id="@+id/callLongClick" android:title="@string/callLongClick"></item>
+    <item android:id="@+id/deleteLongClick" android:title="@string/deleteLongClick"></item>
 </menu>

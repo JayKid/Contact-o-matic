@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
 
 public class ContactomaticActivity extends TabActivity
@@ -73,6 +74,12 @@ public class ContactomaticActivity extends TabActivity
 	        	Intent intent = new Intent(Intent.ACTION_INSERT);
 	            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 				startActivity(intent);
+	        break;
+	        case R.id.aboutMenu:
+	        	int text = R.string.about_the_author; 
+	    		int duration = Toast.LENGTH_LONG;
+	    		Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+	    		toast.show();
 	        break;
     	}
     	return true;

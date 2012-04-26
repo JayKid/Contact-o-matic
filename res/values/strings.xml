@@ -8,14 +8,16 @@
     <string name="groups_tab">Groups</string>
     
     <string name="addContactMenu">Add Contact</string>
+    <string name="aboutMenu">About the author</string>
     
     <string name="empty_phone_number">Empty phone number</string>
+    <string name="about_the_author">Josep.Lluís.López\n\nIDI Grup 10</string>
     
     <string name="contact_click_dialog_title">Select an option</string>
     <string name="viewContactLongClick">View contact</string>
     <string name="editContactLongClick">Edit contact</string>
     <string name="sendSMSLongClick">Send SMS</string>
-    <string name="callLongClick">Call</string>
+    <string name="deleteLongClick">Delete contact</string>
     
     <string name="contact_photo">Contact photo</string>
     <string name="group_photo">Group photo</string>
@@ -24,5 +26,5 @@
     <string name="phone_contact_detail">Phone:</string>
     <string name="email_contact_detail">Email:</string>
     
-	
+    
 </resources>

@@ -20,11 +20,11 @@ public class ContactoMaticListViewAdapter extends ArrayAdapter<Item>
 	private LayoutInflater inflater;
 	private ArrayList<Item> items;
 
-	public ContactoMaticListViewAdapter(Context context,int textViewResourceId, ArrayList<Item> objects)
+	public ContactoMaticListViewAdapter(Context context,int textViewResourceId, ArrayList<Item> contacts)
 	{
-		super(context, textViewResourceId, objects);
+		super(context, textViewResourceId, contacts);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.items = objects;
+		this.items = contacts;
 	}
 	
 	@Override

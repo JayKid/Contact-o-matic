@@ -63,21 +63,21 @@ public class Contact implements Item, Parcelable
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public boolean nameStartsWith(String needle)
+	{
+		if (name == null) return false;
+		else 
+		{
+			return name.toLowerCase().startsWith(needle);
+		}
+	}
 
 	@Override
 	public int describeContents() {
 		return 0;
 	}
 
-	@Override
-	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeInt(id);
-		parcel.writeString(name);
-		parcel.writeParcelable(photo, flags);
-		parcel.writeString(phone);
-		parcel.writeString(email);
-	}
-	
 	public Contact(Parcel in)
 	{
 		readFromParcel(in);
@@ -90,6 +90,15 @@ public class Contact implements Item, Parcelable
 		photo = parcel.readParcelable(Bitmap.class.getClassLoader());
 		phone = parcel.readString();
 		email = parcel.readString();
+	}
+	
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeInt(id);
+		parcel.writeString(name);
+		parcel.writeParcelable(photo, flags);
+		parcel.writeString(phone);
+		parcel.writeString(email);
 	}
 	
 	@SuppressWarnings("rawtypes")

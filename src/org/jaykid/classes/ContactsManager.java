@@ -41,7 +41,7 @@ public class ContactsManager {
 		contactsItems.addAll(contacts);
 		return contactsItems;
 	}
-
+	
 	private void getContactsWithData() {
 		getContactsId();
 		getContactsNames();

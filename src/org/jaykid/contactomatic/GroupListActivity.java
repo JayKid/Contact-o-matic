@@ -7,18 +7,14 @@ import org.jaykid.classes.Group;
 import org.jaykid.classes.GroupsManager;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class GroupListActivity extends ListActivity implements OnItemClickListener
 {
@@ -38,53 +34,57 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 			public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
 				
 				Group clickedGroup = (Group)parent.getItemAtPosition(position);
-				String clickedGroupName = clickedGroup.getName();
-				
-				int duration = Toast.LENGTH_SHORT;
-				Toast toast = Toast.makeText(getApplicationContext(), clickedGroupName, duration);
-				toast.show();
+				launchGroupDetailView(clickedGroup);
 		    }
+
+			private void launchGroupDetailView(Group clickedGroup) {
+				Intent detailIntent = new Intent(getApplicationContext(),GroupDetailActivity.class);
+	    		Bundle extras = new Bundle();
+	    		extras.putParcelable("group", clickedGroup);
+	    		detailIntent.putExtras(extras);
+	    		startActivity(detailIntent);
+			}
 		});
 		registerForContextMenu(getListView());
 		
     }
 	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
-	{
-		super.onCreateContextMenu(menu, v, menuInfo);
-	    MenuInflater inflater = getMenuInflater();
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-	    Group group = (Group) getListView().getAdapter().getItem(info.position);
-        menu.setHeaderTitle(group.getName());
-        menu.setHeaderIcon(R.drawable.ic_launcher);
-        inflater.inflate(R.menu.contact_list_longclick_menu, menu);
-	}
+//	@Override
+//	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
+//	{
+//		super.onCreateContextMenu(menu, v, menuInfo);
+//	    MenuInflater inflater = getMenuInflater();
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+//	    Group group = (Group) getListView().getAdapter().getItem(info.position);
+//        menu.setHeaderTitle(group.getName());
+//        menu.setHeaderIcon(R.drawable.ic_launcher);
+//        inflater.inflate(R.menu.contact_list_longclick_menu, menu);
+//	}
 	
 	
-	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		Group clickedGroup = (Group) getListView().getAdapter().getItem(info.position);
-		
-	    switch (item.getItemId())
-	    {
-	        case R.id.editContactLongClick:
-//	        	Intent callIntent = new Intent(Intent.ACTION_EDIT);
-//	            callIntent.setData(Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + clickedContact.getId()));
-//	            startActivity(callIntent);
-	            return true;
-	        case R.id.sendSMSLongClick:
-//	        	dialerHelper.sendSMSToNumber(clickedContactPhoneNumber);
-	            return true;
-	        case R.id.callLongClick:
-//				dialerHelper.callNumber(clickedContactPhoneNumber);
-	            return true;
-	        default:
-	            return super.onContextItemSelected(item);
-	    }
-	}
+//	@Override
+//	public boolean onContextItemSelected(MenuItem item)
+//	{
+//		AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+//		Group clickedGroup = (Group) getListView().getAdapter().getItem(info.position);
+//		
+//	    switch (item.getItemId())
+//	    {
+//	        case R.id.editContactLongClick:
+////	        	Intent callIntent = new Intent(Intent.ACTION_EDIT);
+////	            callIntent.setData(Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + clickedContact.getId()));
+////	            startActivity(callIntent);
+//	            return true;
+//	        case R.id.sendSMSLongClick:
+////	        	dialerHelper.sendSMSToNumber(clickedContactPhoneNumber);
+//	            return true;
+//	        case R.id.callLongClick:
+////				dialerHelper.callNumber(clickedContactPhoneNumber);
+//	            return true;
+//	        default:
+//	            return super.onContextItemSelected(item);
+//	    }
+//	}
 	
 	public void onResume()
 	{
@@ -92,12 +92,20 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 		fillData();
 	}
 	
-	// Create the menu based on the XML defintion
+//	// Create the menu based on the XML defintion
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) 
+//	{
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.contact_list_menu, menu);
+//		return true;
+//	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.contact_list_menu, menu);
+		inflater.inflate(R.menu.about_menu, menu);
 		return true;
 	}
 	

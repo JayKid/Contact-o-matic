@@ -7,12 +7,14 @@ import org.jaykid.classes.Contact;
 import org.jaykid.classes.ContactsManager;
 import org.jaykid.classes.DialerHelper;
 import org.jaykid.classes.Item;
+import org.jaykid.classes.SearchBoxWatcher;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.RawContacts;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -22,22 +24,25 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 
 public class ContactListActivity extends ListActivity implements OnItemClickListener
 {
 	private ContactoMaticListViewAdapter contactAdapter;
-	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Item> contacts = new ArrayList<Item>();
 	private DialerHelper dialerHelper;
+	private EditText searchBox;
 	
 	public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_list);
         dialerHelper = new DialerHelper(this);
-        contactAdapter = new ContactoMaticListViewAdapter(this, R.layout.item_row, items);
+        contactAdapter = new ContactoMaticListViewAdapter(this, R.layout.item_row, contacts);
+        searchBox = (EditText) findViewById(R.id.searchBox);
         setListAdapter(contactAdapter);
-//        fillData();
+        fillData();
         
         ListView listView = getListView();
         
@@ -61,9 +66,8 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 	    Contact contact = (Contact) getListView().getAdapter().getItem(info.position);
         menu.setHeaderTitle(contact.getName());
-        menu.setHeaderIcon(R.drawable.ic_launcher);
+        menu.setHeaderIcon(R.drawable.ic_menu_manage);
         inflater.inflate(R.menu.contact_list_longclick_menu, menu);
-//	    if (!contact.getHasPhoneNumber()) menu.setGroupVisible(R.id.CallGroup, false);
 	}
 	
 	
@@ -76,7 +80,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	    switch (item.getItemId())
 	    {
 	    	case R.id.viewContactLongClick:
-	    		Intent detailIntent = new Intent(this, ContactDetailActivity.class);
+	    		Intent detailIntent = new Intent(getBaseContext(), ContactDetailActivity.class);
 	    		Bundle extras = new Bundle();
 	    		extras.putParcelable("contact", clickedContact);
 	    		detailIntent.putExtras(extras);
@@ -90,21 +94,29 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	        case R.id.sendSMSLongClick:
 	        	dialerHelper.sendSMSToNumber(clickedContactPhoneNumber);
 	            return true;
-	        case R.id.callLongClick:
-				dialerHelper.callNumber(clickedContactPhoneNumber);
+	        case R.id.deleteLongClick:
+	        	getContentResolver().delete(RawContacts.CONTENT_URI, RawContacts._ID+"=?", new String[] { String.valueOf(clickedContact.getId())});
+	        	fillData();
+	        	cleanSearchBox();
 	            return true;
 	        default:
 	            return super.onContextItemSelected(item);
 	    }
 	}
+
 	
 	public void onResume()
 	{
 		super.onResume();
 		fillData();
+		cleanSearchBox();
 	}
 	
-	// Create the menu based on the XML defintion
+	private void cleanSearchBox() 
+	{
+		searchBox.setText("");
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
@@ -123,7 +135,12 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 			contactAdapter.add(contacts.get(i));
 		}
 		contactAdapter.notifyDataSetChanged();
+		
+		searchBox.addTextChangedListener(new SearchBoxWatcher(contactAdapter,contacts));
+		
 	}
+	
+	
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

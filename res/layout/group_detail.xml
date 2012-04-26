@@ -3,17 +3,18 @@
    android:layout_width="match_parent"
    android:layout_height="match_parent"
    android:orientation="vertical" >
-	
-    <EditText
-       android:id="@+id/searchBox"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:inputType="text">
-    </EditText>
+   
+    <TextView
+        android:id="@+id/groupDetailName"
+        android:layout_width="match_parent"
+        android:layout_height="20dip">
+    </TextView>
+    
 	<ListView
        android:id="@+id/android:list"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:fastScrollEnabled="true" >
     </ListView>
+    
 </LinearLayout>

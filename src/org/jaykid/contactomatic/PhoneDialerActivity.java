@@ -4,6 +4,8 @@ import org.jaykid.classes.DialerHelper;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -69,6 +71,14 @@ public class PhoneDialerActivity extends Activity
 				(String) dialedTelephonedNumberFromUI.subSequence(
 						0, dialedTelephonedNumberFromUI.length()-1); 
 		return dialedTelephonedNumberFromUIWithoutLastNumber;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.about_menu, menu);
+		return true;
 	}
 	
 }

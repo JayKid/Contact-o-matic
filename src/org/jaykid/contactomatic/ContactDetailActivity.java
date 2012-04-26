@@ -1,6 +1,7 @@
 package org.jaykid.contactomatic;
 
 import org.jaykid.classes.Contact;
+import org.jaykid.classes.DialerHelper;
 
 import android.app.Activity;
 import android.hardware.Sensor;
@@ -9,7 +10,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ContactDetailActivity extends Activity implements SensorEventListener
 {
@@ -19,13 +19,15 @@ public class ContactDetailActivity extends Activity implements SensorEventListen
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 800;
     private Contact contact;
+    private DialerHelper dialerHelper = new DialerHelper(this);
     
 	protected void onCreate(Bundle savedInstanceState) {
-		// start motion detection
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact_detail);
 		retrieveContact();
 		setLayoutContactValues();
+		// start motion detection
 		inicialiseSensorManager();
 	}
 	private void retrieveContact()
@@ -68,13 +70,8 @@ public class ContactDetailActivity extends Activity implements SensorEventListen
 				getCurrentPositions(event);
 				float speed = calculateSpeedFromDifferenceOfPositionsDividedByDifferenceOfTime(diffTime);
 				if (speed > SHAKE_THRESHOLD) { 
-					
-					int text = R.string.empty_phone_number; 
-					int duration = Toast.LENGTH_SHORT;
-					Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-					toast.show();
-					
-				} 
+					dialerHelper.callNumber(contact.getPhone());
+				}
 				updateLastPositionsWithCurrentOnes();
 			} 
 		} 
