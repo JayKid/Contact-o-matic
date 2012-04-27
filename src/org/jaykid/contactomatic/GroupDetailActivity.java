@@ -9,8 +9,6 @@ import org.jaykid.classes.GroupsManager;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.TextView;
 
 public class GroupDetailActivity extends ListActivity

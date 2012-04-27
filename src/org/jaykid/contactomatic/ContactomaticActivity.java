@@ -26,7 +26,7 @@ public class ContactomaticActivity extends TabActivity implements OnTabChangeLis
 	
 	private static int CONTACT_TAB_ICON = R.drawable.ic_menu_sort_alphabetically;
 	private static int PHONE_TAB_ICON = R.drawable.ic_menu_call;
-	private static int GROUPS_TAB_ICON = R.drawable.ic_menu_group;
+	private static int GROUPS_TAB_ICON = R.drawable.ic_menu_group_tab;
 	
     /** Called when the activity is first created. */
     @Override
