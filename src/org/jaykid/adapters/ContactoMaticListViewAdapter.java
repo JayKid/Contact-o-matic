@@ -3,7 +3,6 @@ package org.jaykid.adapters;
 import java.util.ArrayList;
 
 import org.jaykid.classes.Contact;
-import org.jaykid.classes.Item;
 import org.jaykid.contactomatic.R;
 
 import android.content.Context;
@@ -14,24 +13,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ContactoMaticListViewAdapter extends ArrayAdapter<Item>
+public class ContactoMaticListViewAdapter extends ArrayAdapter<Contact>
 {
 	
 	private LayoutInflater inflater;
-	private ArrayList<Item> items;
+	private ArrayList<Contact> contacts;
 
-	public ContactoMaticListViewAdapter(Context context,int textViewResourceId, ArrayList<Item> contacts)
+	public ContactoMaticListViewAdapter(Context context,int textViewResourceId, ArrayList<Contact> contacts)
 	{
 		super(context, textViewResourceId, contacts);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.items = contacts;
+		this.contacts = contacts;
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		ViewHolder viewHolder;
-		Item item = items.get(position);
+		Contact item = contacts.get(position);
 		if (convertView == null)
 		{
 			viewHolder = new ViewHolder();

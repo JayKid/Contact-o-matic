@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#2184a0">
 
     <TableLayout 
         android:layout_width="fill_parent"
     	android:layout_height="fill_parent">
+    	<ImageView 
+    	    android:id="@+id/contactPhoto"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:paddingTop="10dip"/>
 	    <TextView
 	        android:id="@+id/nameTitle"
 	        android:layout_width="wrap_content"
@@ -14,7 +20,7 @@
 	        android:layout_marginLeft="20dp"
 	        android:text="@string/name_contact_detail"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textStyle="bold" />
+	        android:textStyle="italic" />
 	    
 	    <TextView
 	        android:id="@+id/contactName"
@@ -22,8 +28,8 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginLeft="20dp"
-	        android:text="1"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:textAppearance="?android:attr/textAppearanceMedium" 
+	        android:textStyle="bold"/>
 	    
 	    <TextView
 	        android:id="@+id/phoneTitle"
@@ -33,7 +39,7 @@
 	        android:layout_marginLeft="20dp"
 	        android:text="@string/phone_contact_detail"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textStyle="bold" />
+	        android:textStyle="italic" />
 	
 	    <TextView
 	        android:id="@+id/contactPhone"
@@ -41,8 +47,8 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="5dp"
 	        android:layout_marginLeft="20dp"
-	        android:text="2"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	        android:textAppearance="?android:attr/textAppearanceMedium" 
+	        android:textStyle="bold"/>
 	
 	
 	   	<TextView
@@ -53,7 +59,7 @@
 	        android:layout_marginLeft="20dp"
 	   	    android:text="@string/email_contact_detail"
 	   	    android:textAppearance="?android:attr/textAppearanceMedium"
-	   	    android:textStyle="bold" />
+	   	    android:textStyle="italic" />
 	
 	   	<TextView
 	   	    android:id="@+id/contactEmail"
@@ -61,8 +67,8 @@
 	   	    android:layout_height="wrap_content"
 	   	    android:layout_marginTop="5dp"
 	        android:layout_marginLeft="20dp"
-	   	    android:text="3"
-	   	    android:textAppearance="?android:attr/textAppearanceMedium" />
+	   	    android:textAppearance="?android:attr/textAppearanceMedium"
+	   	    android:textStyle="bold" />
 
 	</TableLayout>
 </LinearLayout>

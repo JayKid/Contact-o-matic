@@ -8,26 +8,30 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.ContactsContract.Groups;
 
 public class GroupsManager {
 	
 	private ContentResolver contentResolver;
 	private ArrayList<Group> groups;
-//	private ArrayList<Item> contacts;
+	private ArrayList<Contact> contacts;
 	private Resources resources;
 	private Bitmap DEFAULT_PHOTO;
 	private static String GROUP_ID_COLUMN = Groups._ID;
 	private static String GROUP_TITLE_COLUMN = Groups.TITLE;
 	private static String GROUP_DELETED_COLUMN = Groups.DELETED;
+	private Context myContext;
 	
 	public GroupsManager(Context context)
 	{
 		contentResolver = context.getContentResolver();
 		groups = new ArrayList<Group>();
-//		contacts = new ArrayList<Item>();
+		contacts = new ArrayList<Contact>();
 		resources = context.getResources();
 		DEFAULT_PHOTO = getDefaultGroupPhoto();
+		myContext = context;
 	}
 	
 	public ArrayList<Group> getAllGroups()
@@ -36,40 +40,47 @@ public class GroupsManager {
 		return groups;
 	}
 	
-//	public ArrayList<Item> getContactsBelongingToAGroup(int groupID)
-//	{
-//		Uri groupURI = ContactsContract.Data.CONTENT_URI;
-//		
-//	    String[] projection = getContactsBelongingToThisGroupCursor();
-//
-//	    Cursor contactsFromGroupCursor = contentResolver.query(groupURI,
-//	    projection,
-//	    ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID+"="+groupID,
-//	    null,null);
-//	    
-//	    for(contactsFromGroupCursor.moveToFirst(); !contactsFromGroupCursor.isAfterLast(); contactsFromGroupCursor.moveToNext())
-//		{
-//			int contactId = contactsFromGroupCursor.getInt(groupIdColumn);
-//			
-//			boolean hasNotBeenDeleted = (contactsFromGroupCursor.getInt(deletedColumn) == 0);
-//			if(hasNotBeenDeleted)
-//			{
-//				contacts.add(new Contact(contactId, contactName, DEFAULT_PHOTO));
-//			}
-//		}
-//	    contactsFromGroupCursor.close();
-//	    
-//	    
-//	    ArrayList<Item> contactsItems = new ArrayList<Item>();
-//		contactsItems.addAll(contacts);
-//		return contactsItems;
-//	}
+	public ArrayList<Contact> getContactsBelongingToAGroup(int groupID)
+	{
+		ArrayList<Contact> contactsFromGroup = new ArrayList<Contact>();
+		 
+		ContactsManager contactsManager = new ContactsManager(myContext);
+		ArrayList<Contact> allContacts = contactsManager.getAllContacts();
+		
+		Uri groupURI = ContactsContract.Data.CONTENT_URI;
+		
+	    String[] projection = getContactsBelongingToThisGroupCursor();
+	    
+	    Cursor contactsFromGroupCursor = contentResolver.query(groupURI,
+	    projection,
+	    ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID+"="+groupID,
+	    null,null);
+	    
+	    int contactIdColumn = contactsFromGroupCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID);
+	    
+	    for(contactsFromGroupCursor.moveToFirst(); !contactsFromGroupCursor.isAfterLast(); contactsFromGroupCursor.moveToNext())
+		{
+			int contactId = contactsFromGroupCursor.getInt(contactIdColumn);
+			
+			for (int i = 0; i < allContacts.size(); ++i)
+			{
+				Contact contact = allContacts.get(i);
+				if (contact.getId() == contactId)
+				{
+					contactsFromGroup.add(contact);
+					break;
+				}
+			}
+		}
+	    contactsFromGroupCursor.close();
+		return contactsFromGroup;
+	}
 
-//	private String[] getContactsBelongingToThisGroupCursor() {
-//		return new String[]{ 
-//	     ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID ,
-//	     ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID};
-//	}
+	private String[] getContactsBelongingToThisGroupCursor() {
+		return new String[]{ 
+	     ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID ,
+	     ContactsContract.CommonDataKinds.GroupMembership.CONTACT_ID};
+	}
 	
 	private void getGroupsWithData() {
 		getGroupsIdNameAndPhoto();

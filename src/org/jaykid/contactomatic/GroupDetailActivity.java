@@ -3,17 +3,20 @@ package org.jaykid.contactomatic;
 import java.util.ArrayList;
 
 import org.jaykid.adapters.ContactoMaticListViewAdapter;
+import org.jaykid.classes.Contact;
 import org.jaykid.classes.Group;
-import org.jaykid.classes.Item;
+import org.jaykid.classes.GroupsManager;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TextView;
 
-public class GroupDetailActivity extends ListActivity //implements OnItemClickListener
+public class GroupDetailActivity extends ListActivity
 {
 	private ContactoMaticListViewAdapter contactAdapter;
-	private ArrayList<Item> contacts = new ArrayList<Item>();
+	private ArrayList<Contact> contacts = new ArrayList<Contact>();
 	private Group group;
 	
 	public void onCreate(Bundle savedInstanceState)
@@ -46,6 +49,13 @@ public class GroupDetailActivity extends ListActivity //implements OnItemClickLi
 	
 	public void fillData()
 	{
-
+		GroupsManager groupsManager = new GroupsManager(this);
+		ArrayList<Contact> groups = groupsManager.getContactsBelongingToAGroup(group.getId());
+		contactAdapter.clear();
+		for(int i = 0; i < groups.size(); ++i)
+		{
+			contactAdapter.add(groups.get(i));
+		}
+		contactAdapter.notifyDataSetChanged();
 	}
 }

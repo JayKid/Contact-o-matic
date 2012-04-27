@@ -10,9 +10,9 @@ import android.text.TextWatcher;
 public class SearchBoxWatcher implements TextWatcher
 {
 	private ContactoMaticListViewAdapter contactAdapter;
-	private ArrayList<Item> contacts;
+	private ArrayList<Contact> contacts;
 	
-	public SearchBoxWatcher(ContactoMaticListViewAdapter contactAdapter, ArrayList<Item> contacts)
+	public SearchBoxWatcher(ContactoMaticListViewAdapter contactAdapter, ArrayList<Contact> contacts)
 	{
 		this.contactAdapter = contactAdapter;
 		this.contacts = contacts;
@@ -28,7 +28,7 @@ public class SearchBoxWatcher implements TextWatcher
 	
 	public void fillFilteredData(String needle)
 	{
-		ArrayList<Item> filteredContacts = new ArrayList<Item>();
+		ArrayList<Contact> filteredContacts = new ArrayList<Contact>();
 		contactAdapter.clear();
 		if (needle.length() > 0)
 		{

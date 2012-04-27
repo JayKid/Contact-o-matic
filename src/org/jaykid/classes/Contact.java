@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Contact implements Item, Parcelable
+public class Contact implements Parcelable
 {
 	private int id;
 	private String name;

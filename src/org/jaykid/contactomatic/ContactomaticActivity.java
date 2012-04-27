@@ -3,14 +3,16 @@ package org.jaykid.contactomatic;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.widget.TabHost;
-import android.widget.Toast;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
 
-public class ContactomaticActivity extends TabActivity
+public class ContactomaticActivity extends TabActivity implements OnTabChangeListener
 {
 	private TabHost tabHost;
 	private Resources resources;
@@ -35,7 +37,18 @@ public class ContactomaticActivity extends TabActivity
         resources = getResources();
         tabHost = getTabHost();
         addTabs();
+        styleTabs();
     }
+
+	private void styleTabs() {
+		tabHost.setOnTabChangedListener(this);
+        tabHost.setBackgroundColor(Color.parseColor("#2184a0"));
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+        	tabHost.getTabWidget().getChildAt(i).setBackgroundColor(
+                    Color.parseColor("#2184a0"));
+        }
+        tabHost.getTabWidget().getChildAt(0).setBackgroundColor(Color.parseColor("#2ec5f1"));
+	}
 
 	private void addTabs() {
 		addContactsTab();
@@ -83,5 +96,16 @@ public class ContactomaticActivity extends TabActivity
 	        break;
     	}
     	return true;
+    }
+    
+    public void onTabChanged(String tabId) {
+        
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+        	tabHost.getTabWidget().getChildAt(i).setBackgroundColor(
+                    Color.parseColor("#2184a0"));
+        }
+        tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab())
+                .setBackgroundColor(Color.parseColor("#2ec5f1"));
+     
     }
 }

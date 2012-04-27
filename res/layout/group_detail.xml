@@ -2,19 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="match_parent"
    android:layout_height="match_parent"
-   android:orientation="vertical" >
+   android:orientation="vertical" 
+   android:background="#2184a0"
+   android:paddingLeft="10dip"
+   android:paddingRight="10dip">
    
     <TextView
         android:id="@+id/groupDetailName"
         android:layout_width="match_parent"
-        android:layout_height="20dip">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="italic">
     </TextView>
     
 	<ListView
        android:id="@+id/android:list"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:fastScrollEnabled="true" >
+       android:cacheColorHint="#00000000"
+       android:layout_marginTop="10dip">
     </ListView>
     
 </LinearLayout>

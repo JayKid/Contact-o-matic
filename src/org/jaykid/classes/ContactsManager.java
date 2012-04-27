@@ -21,6 +21,8 @@ public class ContactsManager {
 	private ArrayList<Contact> contacts;
 	private Resources resources;
 	private Bitmap DEFAULT_PHOTO;
+	private int scalingFactor = 32;
+	private final String EMPTY_PHONE = "";
 	
 	public ContactsManager(Context context)
 	{
@@ -34,12 +36,10 @@ public class ContactsManager {
 		return BitmapFactory.decodeResource(resources, resources.getIdentifier("default_photo", "drawable", "org.jaykid.contactomatic"));
 	}
 	
-	public ArrayList<Item> getAllContacts()
+	public ArrayList<Contact> getAllContacts()
 	{
 		getContactsWithData();
-		ArrayList<Item> contactsItems = new ArrayList<Item>();
-		contactsItems.addAll(contacts);
-		return contactsItems;
+		return contacts;
 	}
 	
 	private void getContactsWithData() {
@@ -64,6 +64,7 @@ public class ContactsManager {
 			{
 				Contact contact = new Contact();
 				contact.setId(contactId);
+				contact.setPhone(EMPTY_PHONE);
 				contacts.add(contact);
 			}
 		}
@@ -136,7 +137,7 @@ public class ContactsManager {
 				{
 					idsWithPhotoAlready.add(new Integer(actualContactId));
 					Contact contactToUpdate = contacts.get(contactArrayIndex);
-					contactToUpdate.setPhoto(actualContactPhoto);
+					contactToUpdate.setPhoto(getScaledPhoto(actualContactPhoto));
 					contacts.set(contactArrayIndex, contactToUpdate);
 				}
 				else
@@ -148,6 +149,11 @@ public class ContactsManager {
 		}
 		cursorForContactsPhotos.close();
         
+	}
+	
+	private Bitmap getScaledPhoto(Bitmap actualContactPhoto)
+	{
+		return Bitmap.createScaledBitmap(actualContactPhoto, scalingFactor, scalingFactor, false);
 	}
 	
 	private void getContactsEmails()

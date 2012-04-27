@@ -6,7 +6,6 @@ import org.jaykid.adapters.ContactoMaticListViewAdapter;
 import org.jaykid.classes.Contact;
 import org.jaykid.classes.ContactsManager;
 import org.jaykid.classes.DialerHelper;
-import org.jaykid.classes.Item;
 import org.jaykid.classes.SearchBoxWatcher;
 
 import android.app.ListActivity;
@@ -30,7 +29,7 @@ import android.widget.ListView;
 public class ContactListActivity extends ListActivity implements OnItemClickListener
 {
 	private ContactoMaticListViewAdapter contactAdapter;
-	private ArrayList<Item> contacts = new ArrayList<Item>();
+	private ArrayList<Contact> contacts = new ArrayList<Contact>();
 	private DialerHelper dialerHelper;
 	private EditText searchBox;
 	
@@ -115,6 +114,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	private void cleanSearchBox() 
 	{
 		searchBox.setText("");
+		getListView().requestFocus();
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class ContactListActivity extends ListActivity implements OnItemClickList
 	public void fillData()
 	{
 		ContactsManager contactsManager = new ContactsManager(this);
-		ArrayList<Item> contacts = contactsManager.getAllContacts();
+		ArrayList<Contact> contacts = contactsManager.getAllContacts();
 		contactAdapter.clear();
 		for(int i = 0; i < contacts.size(); ++i)
 		{

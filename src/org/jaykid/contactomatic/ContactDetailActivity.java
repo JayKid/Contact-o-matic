@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ContactDetailActivity extends Activity implements SensorEventListener
@@ -51,6 +52,8 @@ public class ContactDetailActivity extends Activity implements SensorEventListen
 		contactPhoneLabel.setText(contact.getPhone());
 		TextView contactEmailLabel = (TextView)findViewById(R.id.contactEmail);
 		contactEmailLabel.setText(contact.getEmail());
+		ImageView contactPhoto = (ImageView)findViewById(R.id.contactPhoto);
+		contactPhoto.setImageBitmap(contact.getPhoto());
 	}
 	
 	public void onAccuracyChanged(Sensor s, int arg1) 

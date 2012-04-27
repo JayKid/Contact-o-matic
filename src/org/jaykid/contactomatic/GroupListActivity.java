@@ -24,7 +24,7 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 	public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.contact_list);
+        setContentView(R.layout.group_list);
         groupAdapter = new GroupListViewAdapter(this, R.layout.item_row, groups);
         setListAdapter(groupAdapter);
         
@@ -49,57 +49,11 @@ public class GroupListActivity extends ListActivity implements OnItemClickListen
 		
     }
 	
-//	@Override
-//	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) 
-//	{
-//		super.onCreateContextMenu(menu, v, menuInfo);
-//	    MenuInflater inflater = getMenuInflater();
-//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//	    Group group = (Group) getListView().getAdapter().getItem(info.position);
-//        menu.setHeaderTitle(group.getName());
-//        menu.setHeaderIcon(R.drawable.ic_launcher);
-//        inflater.inflate(R.menu.contact_list_longclick_menu, menu);
-//	}
-	
-	
-//	@Override
-//	public boolean onContextItemSelected(MenuItem item)
-//	{
-//		AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-//		Group clickedGroup = (Group) getListView().getAdapter().getItem(info.position);
-//		
-//	    switch (item.getItemId())
-//	    {
-//	        case R.id.editContactLongClick:
-////	        	Intent callIntent = new Intent(Intent.ACTION_EDIT);
-////	            callIntent.setData(Uri.parse(ContactsContract.Contacts.CONTENT_LOOKUP_URI + "/" + clickedContact.getId()));
-////	            startActivity(callIntent);
-//	            return true;
-//	        case R.id.sendSMSLongClick:
-////	        	dialerHelper.sendSMSToNumber(clickedContactPhoneNumber);
-//	            return true;
-//	        case R.id.callLongClick:
-////				dialerHelper.callNumber(clickedContactPhoneNumber);
-//	            return true;
-//	        default:
-//	            return super.onContextItemSelected(item);
-//	    }
-//	}
-	
 	public void onResume()
 	{
 		super.onResume();
 		fillData();
 	}
-	
-//	// Create the menu based on the XML defintion
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) 
-//	{
-//		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.contact_list_menu, menu);
-//		return true;
-//	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
